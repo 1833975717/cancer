@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>脑血管外科李医生的圣旨</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui;
+        }
+
+        body {
+            background: #f0f3f7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator {
+            background: #ffffff;
+            width: 90%;
+            max-width: 400px;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .f-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .f-btn {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid #e3e8f0;
+            border-radius: 10px;
+            background: #f8f9fc;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .f-btn.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .input-group {
+            display: grid;
+            gap: 1.2rem;
+            margin: 2rem 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background: #2563eb;
+        }
+
+        .result {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 20px;
+            color: #1e293b;
+        }
+
+        .result span {
+            color: #3b82f6;
+            font-weight: 700;
+            font-size: 24px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1 style="text-align: center; margin-bottom: 1.5rem; color: #1e293b;">感恩的心</h1>
+        
+        <div class="f-selector">
+            <button class="f-btn active" data-value="1.67">5F (1.67)</button>
+            <button class="f-btn" data-value="2">6F (2.00)</button>
+        </div>
+
+        <div class="input-group">
+            <input type="number" id="c" placeholder="管道" step="0.01">
+            <input type="number" id="d" placeholder="动脉瘤" step="0.01">
+        </div>
+
+        <button class="calculate-btn" onclick="calculate()">立即计算</button>
+
+        <div class="result" id="result">
+            计算结果：<span>0.00</span>
+        </div>
+    </div>
+
+    <script>
+        // F值选择逻辑
+        document.querySelectorAll('.f-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function calculate() {
+            try {
+                // 获取输入值
+                const b = parseFloat(document.querySelector('.f-btn.active').dataset.value);
+                const c = parseFloat(document.getElementById('c').value);
+                const d = parseFloat(document.getElementById('d').value);
+
+                // 输入验证
+                if (isNaN(c) || isNaN(d)) throw "请输入完整的数值";
+                if (c === 0) throw "c值不能为零";
+
+                // 执行计算
+                const a = (b / c * d).toFixed(2);
+                document.querySelector('#result span').textContent = a;
+                
+            } catch (error) {
+                alert("计算错误: " + error);
+            }
+        }
+    </script>
+</body>
+</html>
